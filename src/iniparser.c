@@ -725,6 +725,7 @@ dictionary * iniparser_load(const char * ininame)
     int  len ;
     int  lineno=0 ;
     int  errs=0;
+    int  mem_err=0;
 
     dictionary * dict ;
 
@@ -783,12 +784,12 @@ dictionary * iniparser_load(const char * ininame)
             break ;
 
             case LINE_SECTION:
-            errs += dictionary_set(dict, section, NULL) ? 1: 0;
+            mem_err = dictionary_set(dict, section, NULL);
             break ;
 
             case LINE_VALUE:
             sprintf(tmp, "%s:%s", section, key);
-            errs += dictionary_set(dict, tmp, val) ? 1: 0;
+            mem_err = dictionary_set(dict, tmp, val);
             break ;
 
             case LINE_ERROR:
@@ -805,8 +806,8 @@ dictionary * iniparser_load(const char * ininame)
         }
         memset(line, 0, ASCIILINESZ);
         last=0;
-        if (errs<0) {
-            iniparser_error_callback("iniparser: memory allocation failure\n");
+        if (mem_err<0) {
+            fprintf(stderr, "iniparser: memory allocation failure\n");
             break ;
         }
     }
