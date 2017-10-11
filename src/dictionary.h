@@ -21,7 +21,16 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <unistd.h>
+
+#ifdef __linux__
+# include <unistd.h>
+#endif
+
+#if defined(_MSC_VER)
+# include <BaseTsd.h>
+typedef SSIZE_T ssize_t;
+#endif
+
 
 #ifdef __cplusplus
 extern "C" {
