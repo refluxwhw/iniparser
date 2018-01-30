@@ -27,8 +27,7 @@
 #endif
 
 #if defined(_MSC_VER)
-# include <BaseTsd.h>
-typedef SSIZE_T ssize_t;
+typedef signed long ssize_t;
 #endif
 
 
